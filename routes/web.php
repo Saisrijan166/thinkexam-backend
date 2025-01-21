@@ -15,7 +15,7 @@ Route::view('ls','liststudent');
 
 Route::controller(StudentController::class)->group(function(){
     Route::get('add','add');
-    Route::get('list','list');
+    // Route::get('list','list');
     Route::get('delete/{id}','delete');
     
     Route::get('edit/{id}','edit');
@@ -28,10 +28,3 @@ Route::controller(StudentController::class)->group(function(){
 //     return view('welcome');
 // });
 
-
-
-
-
-
-// sakdlsaiudwl
-// ewb
