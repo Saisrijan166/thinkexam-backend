@@ -40,4 +40,6 @@ class UserAuthController extends Controller
 
         return ['result'=>$succes,'message'=>'User created successfully'];
     }
+
+    
 }
