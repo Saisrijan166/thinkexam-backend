@@ -12,16 +12,24 @@ class UserAuthController extends Controller
     public function login(Request $request){
 
         
+$validatedData = $request->validate([
+        'email' => 'required|email',
+        'password' => 'required|min:3',
+    ]);
 
-        $user = User::where("email",$request->email)->first();
-        $hash = Hash::check($request->password,$user->password);
-        if(!$user || !$hash){
-            return ['result'=>"Invalid credentials"];
-        }
-        $succes['token'] = $user->createToken('Myapp')->plainTextToken;
-        $succes['name'] = $user->name;
+    $user = User::where("email", $validatedData['email'])->first();
 
-        return ['result'=>$succes,'message'=>'User logged in successfully'];
+    if (!$user || !Hash::check($validatedData['password'], $user->password)) {
+        return response()->json(['result' => "Invalid credentials"], 401); 
+    }
+
+    $success['token'] = $user->createToken('Myapp')->plainTextToken;
+    $success['name'] = $user->name;
+
+    return response()->json([
+        'result' => $success,
+        'message' => 'User logged in successfully'
+    ], 200);
     }
 
     public function signup(Request $request){
