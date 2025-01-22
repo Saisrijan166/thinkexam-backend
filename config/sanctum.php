@@ -80,5 +80,8 @@ return [
         'encrypt_cookies' => Illuminate\Cookie\Middleware\EncryptCookies::class,
         'validate_csrf_token' => Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class,
     ],
+    
+    'secure' => env('SESSION_SECURE_COOKIE', false), // Set false if using localhost without HTTPS
+
 
 ];
