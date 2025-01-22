@@ -4,10 +4,15 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+
 
 class UserAuthController extends Controller
 {
     public function login(Request $request){
+
+        
+
         $user = User::where("email",$request->email)->first();
         $hash = Hash::check($request->password,$user->password);
         if(!$user || !$hash){
