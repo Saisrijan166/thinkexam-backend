@@ -10,27 +10,26 @@ use Illuminate\Support\Facades\Validator;
 class UserAuthController extends Controller
 {
     public function login(Request $request){
+ 
+        $validatedData = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|min:6',
+        ]);
 
-        
-$validatedData = $request->validate([
-        'email' => 'required|email',
-        'password' => 'required|min:3',
-    ]);
+        $user = User::where("email", $validatedData['email'])->first();
 
-    $user = User::where("email", $validatedData['email'])->first();
+        if (!$user || !Hash::check($validatedData['password'], $user->password)) {
+            return response()->json(['result' => "Invalid credentials"], 401); 
+        }
 
-    if (!$user || !Hash::check($validatedData['password'], $user->password)) {
-        return response()->json(['result' => "Invalid credentials"], 401); 
-    }
+        $success['token'] = $user->createToken('Myapp')->plainTextToken;
+        $success['name'] = $user->name;
 
-    $success['token'] = $user->createToken('Myapp')->plainTextToken;
-    $success['name'] = $user->name;
-
-    return response()->json([
-        'result' => $success,
-        'message' => 'User logged in successfully'
-    ], 200);
-    }
+        return response()->json([
+            'result' => $success,
+            'message' => 'User logged in successfully'
+        ], 200);
+        }
 
     public function signup(Request $request){
         $input = $request->all();
