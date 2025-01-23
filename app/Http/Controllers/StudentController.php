@@ -35,7 +35,7 @@ class StudentController extends Controller
 
 
     public function list(){
-        $studentd = Student::paginate(10);
+        $studentd = Student::paginate(3);
         return view('liststudent',['students'=>$studentd]);
     }
     

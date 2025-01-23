@@ -35,5 +35,6 @@ Route::controller(UserAuthController::class)->group(function () {
 
 Route::controller(TestsTableControlller::class)->group(function () {
     Route::get('teststable', 'teststable');
+    Route::delete('delete/{id}', 'delete');
 });
 
