@@ -15,9 +15,9 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 Route::get('test', function (Request $request) {
     return "correct";
 });
+    Route::get('list',[StudentController::class,'list']);
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
-    Route::get('list',[StudentController::class,'list']);
     Route::post('add',[StudentController::class,'add']);
     Route::get('delete/{id}',[StudentController::class,'delete']);
     Route::get('edit/{id}',[StudentController::class,'edit']);
@@ -34,6 +34,6 @@ Route::controller(UserAuthController::class)->group(function () {
 
 
 Route::controller(TestsTableControlller::class)->group(function () {
-    Route::post('teststable', 'teststable');
+    Route::get('teststable', 'teststable');
 });
 

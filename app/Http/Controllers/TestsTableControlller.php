@@ -9,7 +9,6 @@ class TestsTableControlller extends Controller
 {
     public function teststable(){
         $tests= teststable::paginate(10); 
-        $tests= teststable::all(); 
         return response()->json($tests);
     }
 }
