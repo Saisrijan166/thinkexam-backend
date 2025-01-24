@@ -8,32 +8,68 @@ use Illuminate\Http\Request;
 class TestsTableControlller extends Controller
 {
     public function teststable(){
-        $tests= teststable::paginate(12); 
+        $tests= teststable::paginate(20); 
         return response()->json($tests);
     }
 
-    public function delete($id)
+    public function delete($id){
+        $isdelete = teststable::destroy($id);
+
+        if ($isdelete) {
+            $updatedTableData = teststable::all();
+            return response()->json([
+                'success' => true,
+                'data' => $updatedTableData
+            ]);
+        } 
+        else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Record not deleted'
+            ]);
+        }
+    }
+
+    public function edittest(Request $request, $id)
 {
-    // Delete the record with the given ID
-    $isdelete = teststable::destroy($id);
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'start_date' => 'required|date',
+        'end_date' => 'required|date',
+        'status' => 'required|string',
+        'question' => 'nullable|string',
+        'level' => 'required|string',
+        'candidate' => 'nullable|string',
+        'product' => 'nullable|string',
+        'category' => 'nullable|string',
+        'template' => 'nullable|string',
+        'version' => 'nullable|string',
+    ]);
 
-    // Check if the deletion was successful
-    if ($isdelete) {
-        // Fetch the updated data from the table after deletion
-        $updatedTableData = teststable::all();
+    $test = teststable::find($id);
+    
+    if (!$test) {
+        return response()->json(['success' => false, 'message' => 'Test not found.'], 404);
+    }
 
-        // Return the updated table data as a JSON response
-        return response()->json([
-            'success' => true,
-            'data' => $updatedTableData
-        ]);
+    $test->name = $request->input('name');
+    $test->start_date = $request->input('start_date');
+    $test->end_date = $request->input('end_date');
+    $test->status = $request->input('status');
+    $test->question = $request->input('question');
+    $test->level = $request->input('level');
+    $test->candidate = $request->input('candidate');
+    $test->product = $request->input('product');
+    $test->category = $request->input('category');
+    $test->template = $request->input('template');
+    $test->version = $request->input('version');
+
+    if ($test->save()) {
+        return response()->json(['success' => true, 'message' => 'Test updated successfully.']);
     } else {
-        // Return an error message as a JSON response
-        return response()->json([
-            'success' => false,
-            'message' => 'Record not deleted'
-        ]);
+        return response()->json(['success' => false, 'message' => 'Failed to update test.'], 500);
     }
 }
+
 
 }

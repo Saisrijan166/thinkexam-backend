@@ -21,7 +21,7 @@ Route::controller(StudentController::class)->group(function(){
     Route::get('edit/{id}','edit');
     Route::put('editstudent/{id}','editstudent');
     Route::get('search','search');
-    Route::post('deleteall','deleteall');
+    Route::post('deleteall','de2leteall');
 });
 
 // Route::get('/', function () {
