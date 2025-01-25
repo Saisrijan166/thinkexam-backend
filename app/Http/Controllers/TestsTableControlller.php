@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class TestsTableControlller extends Controller
 {
     public function teststable(){
-        $tests= teststable::paginate(10); 
+        $tests= teststable::paginate(15); 
         return response()->json($tests);
     }
 
