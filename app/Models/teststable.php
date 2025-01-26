@@ -10,4 +10,18 @@ class teststable extends Model
 {
     use HasFactory;
     //
+
+    protected $fillable = [
+        'name',
+        'start_date',
+        'end_date',
+        'status',
+        'level',
+        'question',
+        'candidate',
+        'product',
+        'category',
+        'template',
+        'version',
+    ];
 }
