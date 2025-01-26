@@ -12,19 +12,19 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 });
 
 
-Route::get('test', function (Request $request) {
-    return "correct";
-});
-    Route::get('list',[StudentController::class,'list']);
+// Route::get('test', function (Request $request) {
+//     return "correct";
+// });
+//     Route::get('list',[StudentController::class,'list']);
 
-Route::group(['middleware' => 'auth:sanctum'], function () {
-    Route::post('add',[StudentController::class,'add']);
-    Route::get('delete/{id}',[StudentController::class,'delete']);
-    Route::get('edit/{id}',[StudentController::class,'edit']);
-    Route::put('editstudent/{id}',[StudentController::class,'editstudent']);
-    Route::get('search',[StudentController::class,'search']);
-    Route::post('deleteall',[StudentController::class,'deleteall']);
-});
+// Route::group(['middleware' => 'auth:sanctum'], function () {
+//     Route::post('add',[StudentController::class,'add']);
+//     Route::get('delete/{id}',[StudentController::class,'delete']);
+//     Route::get('edit/{id}',[StudentController::class,'edit']);
+//     Route::put('editstudent/{id}',[StudentController::class,'editstudent']);
+//     Route::get('search',[StudentController::class,'search']);
+//     Route::post('deleteall',[StudentController::class,'deleteall']);
+// });
 
 
 Route::controller(UserAuthController::class)->group(function () {

@@ -40,16 +40,25 @@ class TestsTableControlller extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'start_date' => 'required|date',
-            'end_date' => 'required|date',
-            'status' => 'required|string',
-            'question' => 'nullable|string',
-            'level' => 'required|string',
-            'candidate' => 'nullable|string',
-            'product' => 'nullable|string',
-            'category' => 'nullable|string',
-            'template' => 'nullable|string',
-            'version' => 'nullable|string',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'status' => 'required|string|in:Active,Inactive',
+            'level' => 'required|string|in:Beginner,Intermediate,Advanced',
+            'question' => ['required', function ($attribute, $value, $fail) {
+                if (!is_string($value) && !is_int($value)) {
+                    $fail($attribute . ' must be either a string or an integer.');
+                }
+            }],
+            'candidate' => ['required', function ($attribute, $value, $fail) {
+                if (!is_string($value) && !is_int($value)) {
+                    $fail($attribute . ' must be either a string or an integer.');
+                }
+            }],
+            'product' => 'required|string',
+            'category' => 'required|string',
+            'template' => 'required|string',
+            'version' => 'required|string',
         ]);
+
 
         $test = teststable::find($id);
 
@@ -85,8 +94,16 @@ class TestsTableControlller extends Controller
             'end_date' => 'required|date|after_or_equal:start_date',
             'status' => 'required|string|in:Active,Inactive',
             'level' => 'required|string|in:Beginner,Intermediate,Advanced',
-            'question' => 'required|string',
-            'candidate' => 'required|string',
+            'question' => ['required', function ($attribute, $value, $fail) {
+                if (!is_string($value) && !is_int($value)) {
+                    $fail($attribute . ' must be either a string or an integer.');
+                }
+            }],
+            'candidate' => ['required', function ($attribute, $value, $fail) {
+                if (!is_string($value) && !is_int($value)) {
+                    $fail($attribute . ' must be either a string or an integer.');
+                }
+            }],
             'product' => 'required|string',
             'category' => 'required|string',
             'template' => 'required|string',
