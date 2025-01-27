@@ -1,0 +1,103 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\eventtable;
+use Illuminate\Http\Request;
+
+class EventController extends Controller
+{
+    public function eventtable(Request $request)
+    {
+        $perPage = $request->query('perPage', 15);
+        $events = eventtable::paginate($perPage);
+        return response()->json($events);
+    }
+
+    public function deleteevent($id)
+    {
+        $isDelete = eventtable::destroy($id);
+
+        if ($isDelete) {
+            $updatedTableData = eventtable::all();
+            return response()->json([
+                'success' => true,
+                'data' => $updatedTableData
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Record not deleted'
+            ]);
+        }
+    }
+
+    public function editevent(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'event_name' => 'required|string|max:255',
+            'event_code' => 'required|string|max:255',
+            'exam_event_type' => 'required|string|max:255',
+            'event_type' => 'required|string|max:255',
+            'event_opening' => 'required|date',
+            'event_closing' => 'required|date|after_or_equal:event_opening',
+            'event_date' => 'required|date',
+        ]);
+
+        $event = eventtable::find($id);
+
+        if (!$event) {
+            return response()->json(['success' => false, 'message' => 'Event not found.'], 404);
+        }
+
+        $event->event_name = $request->input('event_name');
+        $event->event_code = $request->input('event_code');
+        $event->exam_event_type = $request->input('exam_event_type');
+        $event->event_type = $request->input('event_type');
+        $event->event_opening = $request->input('event_opening');
+        $event->event_closing = $request->input('event_closing');
+        $event->event_date = $request->input('event_date');
+
+        if ($event->save()) {
+            return response()->json(['success' => true, 'message' => 'Event updated successfully.']);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Failed to update event.'], 500);
+        }
+    }
+
+    public function addevent(Request $request)
+    {
+        $validated = $request->validate([
+            'event_name' => 'required|string|max:255',
+            'event_code' => 'required|string|max:255',
+            'exam_event_type' => 'required|string|max:255',
+            'event_type' => 'required|string|max:255',
+            'event_opening' => 'required|date',
+            'event_closing' => 'required|date|after_or_equal:event_opening',
+            'event_date' => 'required|date',
+        ]);
+
+        try {
+            $event = eventtable::create([
+                'event_name' => $validated['event_name'],
+                'event_code' => $validated['event_code'],
+                'exam_event_type' => $validated['exam_event_type'],
+                'event_type' => $validated['event_type'],
+                'event_opening' => $validated['event_opening'],
+                'event_closing' => $validated['event_closing'],
+                'event_date' => $validated['event_date'],
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Event added successfully.',
+                'data' => $event,
+            ], 201);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error occurred while adding event: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
+}

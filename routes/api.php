@@ -5,7 +5,8 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TestsTableControlller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controlers\CandidateController;
+use App\Http\Controllers\CandidateController;
+use App\Http\Controllers\EventController; // Ensure this class exists in the specified namespace
 
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
@@ -41,7 +42,14 @@ Route::controller(TestsTableControlller::class)->group(function () {
     Route::post('addtest', 'addtest');
 });
 
-Route::controller(TestsTableControlller::class)->group(function () {
+Route::controller(CandidateController::class)->group(function () {
     Route::post('addcandidate', 'addcandidate');
 
+});
+
+Route::controller(EventController::class)->group(function () {
+    Route::get('eventtable','eventtable');
+    Route::delete('deleteevent/{id}', 'deleteevent');
+    Route::put('editevent/{id}', 'editevent');
+    Route::post('addevent', 'addevent');
 });
