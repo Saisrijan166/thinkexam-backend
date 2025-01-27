@@ -5,6 +5,7 @@ use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TestsTableControlller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controlers\CandidateController;
 
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
@@ -40,3 +41,7 @@ Route::controller(TestsTableControlller::class)->group(function () {
     Route::post('addtest', 'addtest');
 });
 
+Route::controller(TestsTableControlller::class)->group(function () {
+    Route::post('addcandidate', 'addcandidate');
+
+});
