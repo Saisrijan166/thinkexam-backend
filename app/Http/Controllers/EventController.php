@@ -70,24 +70,16 @@ class EventController extends Controller
         $validated = $request->validate([
             'event_name' => 'required|string|max:255',
             'event_code' => 'required|string|max:255',
-            'exam_event_type' => 'required|string|max:255',
-            'event_type' => 'required|string|max:255',
+            'exam_event_type' => 'required|string|in:Online,Offline',
+            'event_type' => 'required|string|in:Competition,Exhibition,Event,Conference',
             'event_opening' => 'required|date',
-            'event_closing' => 'required|date|after_or_equal:event_opening',
+            'event_closing' => 'required|date',
             'event_date' => 'required|date',
         ]);
-
+        
         try {
-            $event = eventtable::create([
-                'event_name' => $validated['event_name'],
-                'event_code' => $validated['event_code'],
-                'exam_event_type' => $validated['exam_event_type'],
-                'event_type' => $validated['event_type'],
-                'event_opening' => $validated['event_opening'],
-                'event_closing' => $validated['event_closing'],
-                'event_date' => $validated['event_date'],
-            ]);
-
+            $event = EventTable::create($validated);
+    
             return response()->json([
                 'success' => true,
                 'message' => 'Event added successfully.',
@@ -100,4 +92,6 @@ class EventController extends Controller
             ], 500);
         }
     }
+    
+    
 }
