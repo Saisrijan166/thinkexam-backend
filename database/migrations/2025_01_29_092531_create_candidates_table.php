@@ -11,8 +11,6 @@ return new class extends Migration {
             $table->id();
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('profile_photo'); // Required
-
             // Nullable fields
             $table->string('name')->nullable();
             $table->string('enrollment')->nullable();
@@ -31,15 +29,6 @@ return new class extends Migration {
             $table->string('group')->nullable();
             $table->string('other_selection')->nullable();
             $table->enum('status', ['active', 'inactive'])->nullable();
-
-            // File uploads
-            $table->string('signature')->nullable();
-            $table->string('id_proof')->nullable();
-            $table->string('new_me')->nullable();
-            $table->string('other_identification')->nullable();
-            $table->string('other_identification2')->nullable();
-            $table->string('other_identification3')->nullable();
-            $table->string('other_identification4')->nullable();
 
             $table->timestamps();
         });

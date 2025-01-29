@@ -44,6 +44,7 @@ Route::controller(TestsTableControlller::class)->group(function () {
 
 Route::controller(CandidateController::class)->group(function () {
     Route::post('addcandidate', 'addcandidate');
+    Route::post('uploadcandidate', 'uploadcandidate');
 
 });
 
