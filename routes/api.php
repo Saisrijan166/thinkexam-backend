@@ -6,7 +6,8 @@ use App\Http\Controllers\TestsTableControlller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CandidateController;
-use App\Http\Controllers\EventController; // Ensure this class exists in the specified namespace
+use App\Http\Controllers\EventController; 
+use App\Http\Controllers\ReportController;
 
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
@@ -53,4 +54,8 @@ Route::controller(EventController::class)->group(function () {
     Route::delete('deleteevent/{id}', 'deleteevent');
     Route::put('editevent/{id}', 'editevent');
     Route::post('addevent', 'addevent');
+});
+
+Route::controller(ReportController::class)->group(function () {
+    Route::get('reports','index');
 });
