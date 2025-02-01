@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Candidate;
+use App\Models\Candidatefile;
 use Illuminate\Support\Facades\Validator;
 
 class CandidateController extends Controller
@@ -50,30 +51,26 @@ class CandidateController extends Controller
 
     
 
-    
-    // API to handle file uploads
-    public function uploadcandidate(Request $request, $candidate_id)
-    {
-        $request->validate([
-            'files.profile_photo' => 'nullable|file|mimes:png,jpeg,jpg',
-            'files.signature' => 'nullable|file|mimes:png,jpeg,jpg',
-            'files.id_proof' => 'nullable|file|mimes:png,jpeg,jpg',
-            'files.new_me' => 'nullable|file|mimes:png,jpeg,jpg',
-            'files.other_identification' => 'nullable|file|mimes:png,jpeg,jpg',
-        ]);
+public function uploadFiles(Request $request)
+{
+    $validated = $request->validate([
+        'profile_photo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+    ]);
 
-        $candidate = Candidate::findOrFail($candidate_id);
+    if ($request->hasFile('profile_photo') && $request->file('profile_photo')->isValid()) {
+        $file = $request->file('profile_photo');
+        $path = $file->store('profile_photos', 'public');  // Store in storage/app/public/profile_photos
 
-        $filePaths = [];
-        foreach (['profile_photo', 'signature', 'id_proof', 'new_me', 'other_identification'] as $fileField) {
-            if ($request->hasFile("files.$fileField")) {
-                $filePaths[$fileField] = $request->file("files.$fileField")->store('uploads', 'public');
-            }
-        }
-        $candidate->update($filePaths);
+        // Do the same for other files as needed...
 
-        return response()->json(['message' => 'Candidate files uploaded successfully!'], 200);
+        // Store path in database or return response
+        return response()->json(['message' => 'Files uploaded successfully!', 'path' => $path], 200);
     }
+
+    return response()->json(['message' => 'No file uploaded or file is invalid.'], 400);
+}
+
+
 
     
 }

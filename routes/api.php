@@ -47,13 +47,10 @@ Route::controller(TestsTableControlller::class)->group(function () {
 
 Route::controller(CandidateController::class)->group(function () {
     Route::post('addcandidate', 'addcandidate');
-    // Route::post('uploadcandidate', 'uploadcandidate');
-
+    Route::post('uploadfiles', 'uploadFiles');
 });
 
 
-Route::post('/candidate/{id}/upload', [CandidateFileController::class, 'upload']);
-Route::get('/candidate/{id}/files', [CandidateFileController::class, 'getFiles']);
 
 
 Route::controller(EventController::class)->group(function () {
@@ -65,4 +62,8 @@ Route::controller(EventController::class)->group(function () {
 
 Route::controller(ReportController::class)->group(function () {
     Route::get('reports','index');
+    // Route::delete('deletereport/{id}', 'delete');
+
 });
+
+Route::delete('/deleterecord/{id}', [ReportController::class, 'delete']);
