@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\EventController; 
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\CandidateFileController;
+
 
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
@@ -45,9 +47,14 @@ Route::controller(TestsTableControlller::class)->group(function () {
 
 Route::controller(CandidateController::class)->group(function () {
     Route::post('addcandidate', 'addcandidate');
-    Route::post('uploadcandidate', 'uploadcandidate');
+    // Route::post('uploadcandidate', 'uploadcandidate');
 
 });
+
+
+Route::post('/candidate/{id}/upload', [CandidateFileController::class, 'upload']);
+Route::get('/candidate/{id}/files', [CandidateFileController::class, 'getFiles']);
+
 
 Route::controller(EventController::class)->group(function () {
     Route::get('eventtable','eventtable');
