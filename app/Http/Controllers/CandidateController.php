@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Candidate;
 use App\Models\Candidatefile;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 
 class CandidateController extends Controller
 {
@@ -55,20 +56,39 @@ public function uploadFiles(Request $request)
 {
     $validated = $request->validate([
         'profile_photo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        'signature' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        'id_proof' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        'new_me' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        'other_identification' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        'other_identification2' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        'other_identification3' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        'other_identification4' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
     ]);
 
-    if ($request->hasFile('profile_photo') && $request->file('profile_photo')->isValid()) {
-        $file = $request->file('profile_photo');
-        $path = $file->store('profile_photos', 'public');  // Store in storage/app/public/profile_photos
+    $filePaths = [];
 
-        // Do the same for other files as needed...
+    $fileFields = [
+        'profile_photo', 'signature', 'id_proof', 'new_me',
+        'other_identification', 'other_identification2',
+        'other_identification3', 'other_identification4'
+    ];
 
-        // Store path in database or return response
-        return response()->json(['message' => 'Files uploaded successfully!', 'path' => $path], 200);
+    foreach ($fileFields as $field) {
+        if ($request->hasFile($field) && $request->file($field)->isValid()) {
+            $filePaths[$field] = $request->file($field)->store('profile_photos', 'public');
+        } else {
+            $filePaths[$field] = null; 
+        }
     }
 
-    return response()->json(['message' => 'No file uploaded or file is invalid.'], 400);
+    Candidatefile::create($filePaths);
+
+    return response()->json([
+        'message' => 'Files uploaded successfully!',
+        'paths' => $filePaths
+    ], 200);
 }
+
 
 
 public function count() {
