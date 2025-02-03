@@ -41,5 +41,9 @@ class ReportController extends Controller
 }
 
 
+public function count() {
+    return response()->json(['count' => Report::count()]);
+}
+
 
 }

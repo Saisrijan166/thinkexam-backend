@@ -71,6 +71,10 @@ public function uploadFiles(Request $request)
 }
 
 
+public function count() {
+    return response()->json(['count' => Candidate::count()]);
+}
+
 
     
 }

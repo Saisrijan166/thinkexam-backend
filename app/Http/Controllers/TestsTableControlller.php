@@ -137,4 +137,14 @@ class TestsTableControlller extends Controller
             ], 500);
         }
     }
+
+
+    public function count() {
+        return response()->json(['count' => teststable::count()]);
+    }
+    
+    public function activeCount() {
+        return response()->json(['count' => teststable::where('status', 'Active')->count()]);
+    }
+    
 }

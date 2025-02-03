@@ -43,14 +43,18 @@ Route::controller(TestsTableControlller::class)->group(function () {
     Route::delete('delete/{id}', 'delete');
     Route::put('edittest/{id}', 'edittest');
     Route::post('addtest', 'addtest');
+    Route::get('/tests/count', 'count');
+    Route::get('/tests/active/count', 'activeCount');
+
+
 });
 
 Route::controller(CandidateController::class)->group(function () {
     Route::post('addcandidate', 'addcandidate');
     Route::post('uploadfiles', 'uploadFiles');
+    Route::get('/candidates/count',  'count');
+
 });
-
-
 
 
 Route::controller(EventController::class)->group(function () {
@@ -63,7 +67,7 @@ Route::controller(EventController::class)->group(function () {
 Route::controller(ReportController::class)->group(function () {
     Route::get('reports','index');
     // Route::delete('deletereport/{id}', 'delete');
-
+    Route::get('/reports/count',  'count');
+    Route::delete('/deleterecord/{id}', 'delete');
 });
 
-Route::delete('/deleterecord/{id}', [ReportController::class, 'delete']);
