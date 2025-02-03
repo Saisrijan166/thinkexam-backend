@@ -46,4 +46,17 @@ public function count() {
 }
 
 
+public function export()
+{
+    $reports = Report::all(); // Get all reports (no pagination)
+
+    if ($reports->isEmpty()) {
+        return response()->json(['message' => 'No data available'], 404);
+    }
+
+    return response()->json($reports);
+}
+
+
+
 }

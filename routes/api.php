@@ -66,6 +66,7 @@ Route::controller(EventController::class)->group(function () {
 
 Route::controller(ReportController::class)->group(function () {
     Route::get('reports','index');
+    Route::get('reports/export','export');
     // Route::delete('deletereport/{id}', 'delete');
     Route::get('/reports/count',  'count');
     Route::delete('/deleterecord/{id}', 'delete');
