@@ -14,6 +14,24 @@ class EventController extends Controller
         return response()->json($events);
     }
 
+
+    public function getFilteredEvents(Request $request)
+{
+    $filter = $request->query('filter');
+
+    $query = eventtable::query();
+
+    if ($filter === 'Online' || $filter === 'Offline') {
+        $query->where('exam_event_type', $filter);
+    } elseif (in_array($filter, ['Competition', 'Exhibition', 'Event', 'Conference'])) {
+        $query->where('event_type', $filter);
+    }
+
+    $tests = $query->get();
+
+    return response()->json($tests);
+}
+
     public function deleteevent($id)
     {
         $isDelete = eventtable::destroy($id);

@@ -61,6 +61,7 @@ Route::controller(EventController::class)->group(function () {
     Route::delete('deleteevent/{id}', 'deleteevent');
     Route::put('editevent/{id}', 'editevent');
     Route::post('addevent', 'addevent');
+    Route::get('getevents','getFilteredEvents');
 });
 
 Route::controller(ReportController::class)->group(function () {
