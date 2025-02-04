@@ -45,8 +45,7 @@ Route::controller(TestsTableControlller::class)->group(function () {
     Route::post('addtest', 'addtest');
     Route::get('/tests/count', 'count');
     Route::get('/tests/active/count', 'activeCount');
-
-
+    Route::get('gettests','getFilteredTests');
 });
 
 Route::controller(CandidateController::class)->group(function () {

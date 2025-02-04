@@ -14,6 +14,24 @@ class TestsTableControlller extends Controller
         return response()->json($tests);
     }
 
+    public function getFilteredTests(Request $request)
+{
+    $filter = $request->query('filter');
+
+    $query = teststable::query();
+
+    if ($filter === 'Active' || $filter === 'Inactive') {
+        $query->where('status', $filter);
+    } elseif (in_array($filter, ['Beginner', 'Intermediate', 'Advanced'])) {
+        $query->where('level', $filter);
+    }
+
+    $tests = $query->get();
+
+    return response()->json($tests);
+}
+
+
 
     public function delete($id)
     {
