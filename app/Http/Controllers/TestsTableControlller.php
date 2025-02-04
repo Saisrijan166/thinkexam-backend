@@ -15,22 +15,35 @@ class TestsTableControlller extends Controller
     }
 
     public function getFilteredTests(Request $request)
-{
-    $filter = $request->query('filter');
+    {
+        $filter = $request->query('filter');
+        $query = teststable::query();
 
-    $query = teststable::query();
+        if ($filter === 'Active' || $filter === 'Inactive') {
+            $query->where('status', $filter);
+        } elseif (in_array($filter, ['Beginner', 'Intermediate', 'Advanced'])) {
+            $query->where('level', $filter);
+        }
 
-    if ($filter === 'Active' || $filter === 'Inactive') {
-        $query->where('status', $filter);
-    } elseif (in_array($filter, ['Beginner', 'Intermediate', 'Advanced'])) {
-        $query->where('level', $filter);
+        $tests = $query->get();
+
+        return response()->json($tests);
     }
 
-    $tests = $query->get();
 
-    return response()->json($tests);
-}
+    public function getCategoryTests(Request $request)
+    {
+        $filter = $request->query('filter');
 
+        $query = teststable::query();
+        if ($filter) {
+            $query->where('category', 'LIKE', "%$filter%");  // More flexible search
+        }
+
+        $tests = $query->get();
+
+        return response()->json($tests);
+    }
 
 
     public function delete($id)
@@ -157,12 +170,25 @@ class TestsTableControlller extends Controller
     }
 
 
-    public function count() {
+    public function count()
+    {
         return response()->json(['count' => teststable::count()]);
     }
-    
-    public function activeCount() {
+
+    public function activeCount()
+    {
         return response()->json(['count' => teststable::where('status', 'Active')->count()]);
     }
-    
+
+
+    public function export()
+    {
+        $reports = teststable::all(); // Get all reports (no pagination)
+
+        if ($reports->isEmpty()) {
+            return response()->json(['message' => 'No data available'], 404);
+        }
+
+        return response()->json($reports);
+    }
 }

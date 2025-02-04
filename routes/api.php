@@ -6,7 +6,7 @@ use App\Http\Controllers\TestsTableControlller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CandidateController;
-use App\Http\Controllers\EventController; 
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\CandidateFileController;
 
@@ -45,30 +45,30 @@ Route::controller(TestsTableControlller::class)->group(function () {
     Route::post('addtest', 'addtest');
     Route::get('/tests/count', 'count');
     Route::get('/tests/active/count', 'activeCount');
-    Route::get('gettests','getFilteredTests');
+    Route::get('gettests', 'getFilteredTests');
+    Route::get('getcategorytests', 'getCategoryTests');
+    Route::get('tests/export', 'export');
 });
 
 Route::controller(CandidateController::class)->group(function () {
     Route::post('addcandidate', 'addcandidate');
     Route::post('uploadfiles', 'uploadFiles');
     Route::get('/candidates/count',  'count');
-
 });
 
 
 Route::controller(EventController::class)->group(function () {
-    Route::get('eventtable','eventtable');
+    Route::get('eventtable', 'eventtable');
     Route::delete('deleteevent/{id}', 'deleteevent');
     Route::put('editevent/{id}', 'editevent');
     Route::post('addevent', 'addevent');
-    Route::get('getevents','getFilteredEvents');
+    Route::get('getevents', 'getFilteredEvents');
 });
 
 Route::controller(ReportController::class)->group(function () {
-    Route::get('reports','index');
-    Route::get('reports/export','export');
+    Route::get('reports', 'index');
+    Route::get('reports/export', 'export');
     // Route::delete('deletereport/{id}', 'delete');
     Route::get('/reports/count',  'count');
     Route::delete('/deleterecord/{id}', 'delete');
 });
-

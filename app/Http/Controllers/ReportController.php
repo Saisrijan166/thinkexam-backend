@@ -17,46 +17,42 @@ class ReportController extends Controller
     }
 
     public function delete($id)
-{
-    $report = Report::find($id);
+    {
+        $report = Report::find($id);
 
-    if (!$report) {
+        if (!$report) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Record not found'
+            ], 404);
+        }
+
+        if ($report->delete()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Record deleted successfully'
+            ]);
+        }
+
         return response()->json([
             'success' => false,
-            'message' => 'Record not found'
-        ], 404);
+            'message' => 'Failed to delete the record'
+        ], 500);
     }
 
-    if ($report->delete()) {
-        return response()->json([
-            'success' => true,
-            'message' => 'Record deleted successfully'
-        ]);
+
+    public function count()
+    {
+        return response()->json(['count' => Report::count()]);
     }
 
-    return response()->json([
-        'success' => false,
-        'message' => 'Failed to delete the record'
-    ], 500);
-}
 
-
-public function count() {
-    return response()->json(['count' => Report::count()]);
-}
-
-
-public function export()
-{
-    $reports = Report::all(); // Get all reports (no pagination)
-
-    if ($reports->isEmpty()) {
-        return response()->json(['message' => 'No data available'], 404);
+    public function export()
+    {
+        $reports = Report::all();
+        if ($reports->isEmpty()) {
+            return response()->json(['message' => 'No data available'], 404);
+        }
+        return response()->json($reports);
     }
-
-    return response()->json($reports);
-}
-
-
-
 }
