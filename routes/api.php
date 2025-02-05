@@ -72,3 +72,10 @@ Route::controller(ReportController::class)->group(function () {
     Route::get('/reports/count',  'count');
     Route::delete('/deleterecord/{id}', 'delete');
 });
+
+
+
+
+
+//="php artisan make:migration create_"&A1&"_table --create="&A1
+//="php artisan make:model "&PROPER(A2)&" -m"

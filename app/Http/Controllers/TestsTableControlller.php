@@ -37,7 +37,7 @@ class TestsTableControlller extends Controller
 
         $query = teststable::query();
         if ($filter) {
-            $query->where('category', 'LIKE', "%$filter%");  // More flexible search
+            $query->where('category', 'LIKE', "%$filter%");
         }
 
         $tests = $query->get();
@@ -183,7 +183,7 @@ class TestsTableControlller extends Controller
 
     public function export()
     {
-        $reports = teststable::all(); // Get all reports (no pagination)
+        $reports = teststable::all();
 
         if ($reports->isEmpty()) {
             return response()->json(['message' => 'No data available'], 404);
