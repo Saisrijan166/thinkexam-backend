@@ -79,3 +79,19 @@ Route::controller(ReportController::class)->group(function () {
 
 //="php artisan make:migration create_"&A1&"_table --create="&A1
 //="php artisan make:model "&PROPER(A2)&" -m"
+
+
+
+
+// php artisan migrate:generate
+// mysqldump -u root -p demodatabase --no-create-info --complete-insert --ignore-table=demodatabase.migrations > data.sql
+// php generate_seeders.php
+// php artisan migrate:fresh --seed
+
+
+// mysql -u root -p demodatabase < data.sql
+
+
+
+// git commit -m "wed"^C 
+// git push origin -u main
