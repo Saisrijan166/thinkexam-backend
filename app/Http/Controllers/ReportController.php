@@ -55,4 +55,39 @@ class ReportController extends Controller
         }
         return response()->json($reports);
     }
+
+    public function getGroupReports(Request $request)
+    {
+        $filter = $request->query('filter');
+
+        $query = Report::query();
+        if ($filter) {
+            $query->where('group', 'LIKE', "%$filter%");
+        }
+
+        $tests = $query->get();
+
+        return response()->json($tests);
+    }
+
+    
+    public function getCredibilityReports(Request $request)
+{
+    $filter = $request->query('filter');
+
+    $query = Report::query();
+
+    if ($filter === 'above70') {
+        $query->where('credibility_score', '>', 70);
+    } elseif ($filter === '30-70') {
+        $query->whereBetween('credibility_score', [30, 70]);
+    } elseif ($filter === 'below30') {
+        $query->where('credibility_score', '<', 30);
+    }
+
+    $tests = $query->get();
+
+    return response()->json($tests);
+}
+
 }

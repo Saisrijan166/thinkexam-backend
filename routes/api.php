@@ -67,10 +67,13 @@ Route::controller(EventController::class)->group(function () {
 
 Route::controller(ReportController::class)->group(function () {
     Route::get('reports', 'index');
-    Route::get('reports/export', 'export');
+    Route::get('reports/export', 'export'); 
     // Route::delete('deletereport/{id}', 'delete');
     Route::get('/reports/count',  'count');
     Route::delete('/deleterecord/{id}', 'delete');
+    Route::get('getgroupreports', 'getGroupReports');
+    Route::get('getcredibilityreports', 'getCredibilityReports');
+
 });
 
 
@@ -81,8 +84,8 @@ Route::controller(ReportController::class)->group(function () {
 //="php artisan make:model "&PROPER(A2)&" -m"
 
 
-
-
+//composer require --dev "xethron/migrations-generator"
+//composer require --dev kitloong/laravel-migrations-generator
 // php artisan migrate:generate
 // mysqldump -u root -p demodatabase --no-create-info --complete-insert --ignore-table=demodatabase.migrations > data.sql
 // php generate_seeders.php
