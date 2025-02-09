@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ReportController;
-use App\Http\Controllers\CandidateFileController;
+use App\Http\Controllers\ProfileController;
+
 
 
 
@@ -16,6 +17,8 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::middleware('auth:sanctum')->get('/profile', [ProfileController::class, 'getProfile']);
+Route::middleware('auth:sanctum')->post('/reset-password', [ProfileController::class, 'resetPassword']);
 
 // Route::get('test', function (Request $request) {
 //     return "correct";
@@ -75,6 +78,8 @@ Route::controller(ReportController::class)->group(function () {
     Route::get('getcredibilityreports', 'getCredibilityReports');
 
 });
+
+
 
 
 
