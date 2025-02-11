@@ -90,4 +90,13 @@ class ReportController extends Controller
     return response()->json($tests);
 }
 
+
+public function getEmails(Request $request)
+{
+    $group = $request->input('group', 'A'); 
+    $emails = Report::where('group', $group)->pluck('email');
+    return response()->json($emails);
+}
+
+
 }

@@ -60,7 +60,7 @@ Route::controller(ReportController::class)->group(function () {
     Route::delete('/deleterecord/{id}', 'delete');
     Route::get('getgroupreports', 'getGroupReports');
     Route::get('getcredibilityreports', 'getCredibilityReports');
-
+    Route::get('getemails', 'getEmails');
 });
 
 
