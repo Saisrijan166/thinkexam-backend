@@ -20,8 +20,8 @@ class CandidateTableController extends Controller
 
         $query = Candidate::query();
 
-        if ($filter === 'male' || $filter === 'female') {
-            $query->where('gender', $filter);
+        if ($filter === 'A' || $filter === 'B'|| $filter === 'C') {
+            $query->where('group', $filter);
         } elseif (in_array($filter, ['active', 'inactive'])) {
             $query->where('status', $filter);
         }
