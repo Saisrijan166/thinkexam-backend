@@ -9,6 +9,7 @@ use App\Http\Controllers\CandidateController;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CandidateTableController;
 
 
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
@@ -51,6 +52,15 @@ Route::controller(EventController::class)->group(function () {
     Route::post('addevent', 'addevent');
     Route::get('getevents', 'getFilteredEvents');
 });
+
+Route::controller(CandidateTableController::class)->group(function () {
+    Route::get('candidatetable', 'candidatetable');
+    Route::delete('deletecandidate/{id}', 'deleteCandidate');
+    Route::put('editcandidate/{id}', 'editCandidate');
+    // Route::post('addcandidate', 'addCandidate');
+    Route::get('getcandidates', 'getFilteredCandidates');
+});
+
 
 Route::controller(ReportController::class)->group(function () {
     Route::get('reports', 'index');
