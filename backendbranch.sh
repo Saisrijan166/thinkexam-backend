@@ -4,6 +4,6 @@ echo "added"
 git commit -m "tuesday frontend commit"
 echo "committed"
 
-git push origin backendbranch
+git push origin branch-b
 
-echo "frontend pushing completed"
+echo "backend pushing completed"
