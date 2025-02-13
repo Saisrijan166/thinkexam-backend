@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\UserAuthController;
-use App\Http\Controllers\StudentController;
+// use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TestsTableControlller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
