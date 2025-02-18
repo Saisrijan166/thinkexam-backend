@@ -7,10 +7,17 @@ use Illuminate\Http\Request;
 
 class EventController extends Controller
 {
+    protected $eventTable;
+    public function __construct(eventtable $eventTable)
+    {
+        $this->eventTable = $eventTable;
+        
+    }
+
     public function eventtable(Request $request)
     {
         $perPage = $request->query('perPage', 15);
-        $events = eventtable::paginate($perPage);
+        $events = $this->eventTable->paginate($perPage);
         return response()->json($events);
     }
 
@@ -19,7 +26,7 @@ class EventController extends Controller
 {
     $filter = $request->query('filter');
 
-    $query = eventtable::query();
+    $query = $this->eventTable->query();
 
     if ($filter === 'Online' || $filter === 'Offline') {
         $query->where('exam_event_type', $filter);
@@ -34,10 +41,10 @@ class EventController extends Controller
 
     public function deleteevent($id)
     {
-        $isDelete = eventtable::destroy($id);
+        $isDelete = $this->eventTable->destroy($id);
 
         if ($isDelete) {
-            $updatedTableData = eventtable::all();
+            $updatedTableData = $this->eventTable->all();
             return response()->json([
                 'success' => true,
                 'data' => $updatedTableData
@@ -62,7 +69,7 @@ class EventController extends Controller
             'event_date' => 'required|date',
         ]);
 
-        $event = eventtable::find($id);
+        $event = $this->eventTable->find($id);
 
         if (!$event) {
             return response()->json(['success' => false, 'message' => 'Event not found.'], 404);
@@ -96,7 +103,7 @@ class EventController extends Controller
         ]);
         
         try {
-            $event = EventTable::create($validated);
+            $event = $this->eventTable->create($validated);
     
             return response()->json([
                 'success' => true,

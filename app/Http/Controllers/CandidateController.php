@@ -10,7 +10,11 @@ use Illuminate\Support\Facades\Log;
 
 class CandidateController extends Controller
 {
-    //
+    protected $candidate;
+    public function __construct(Candidate $candidate)
+    {
+        $this->candidate = $candidate;
+    }
     public function addcandidate(Request $request)
 {
     $validator = Validator::make($request->all(), [
@@ -43,7 +47,7 @@ class CandidateController extends Controller
     }
 
     try {
-        $candidate = Candidate::create($validator->validated());
+        $candidate = $this->candidate->create($validator->validated());
         return response()->json(['message' => 'Candidate details added successfully!', 'candidate_id' => $candidate->id], 201);
     } catch (\Exception $e) {
         return response()->json(['error' => 'Something went wrong. Please try again.'], 500);
@@ -92,7 +96,7 @@ public function uploadFiles(Request $request)
 
 
 public function count() {
-    return response()->json(['count' => Candidate::count()]);
+    return response()->json(['count' => $this->candidate->count()]);
 }
 
 

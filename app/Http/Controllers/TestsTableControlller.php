@@ -7,17 +7,24 @@ use Illuminate\Http\Request;
 
 class TestsTableControlller extends Controller
 {
+    protected $testsTable;
+
+    public function __construct(teststable $teststable)
+    {
+        $this->testsTable = $teststable;
+    }
+
     public function teststable(Request $request)
     {
         $perPage = $request->query('perPage', 15);
-        $tests = teststable::paginate($perPage);
+        $tests = $this->testsTable->paginate($perPage);
         return response()->json($tests);
     }
 
     public function getFilteredTests(Request $request)
     {
         $filter = $request->query('filter');
-        $query = teststable::query();
+        $query = $this->testsTable->query();
 
         if ($filter === 'Active' || $filter === 'Inactive') {
             $query->where('status', $filter);
@@ -35,7 +42,7 @@ class TestsTableControlller extends Controller
     {
         $filter = $request->query('filter');
 
-        $query = teststable::query();
+        $query = $this->testsTable->query();
         if ($filter) {
             $query->where('category', 'LIKE', "%$filter%");
         }
@@ -48,10 +55,10 @@ class TestsTableControlller extends Controller
 
     public function delete($id)
     {
-        $isdelete = teststable::destroy($id);
+        $isdelete = $this->testsTable->destroy($id);
 
         if ($isdelete) {
-            $updatedTableData = teststable::all();
+            $updatedTableData = $this->testsTable->all();
             return response()->json([
                 'success' => true,
                 'data' => $updatedTableData
@@ -91,7 +98,7 @@ class TestsTableControlller extends Controller
         ]);
 
 
-        $test = teststable::find($id);
+        $test = $this->testsTable->find($id);
 
         if (!$test) {
             return response()->json(['success' => false, 'message' => 'Test not found.'], 404);
@@ -142,7 +149,7 @@ class TestsTableControlller extends Controller
         ]);
 
         try {
-            $test = teststable::create([
+            $test = $this->testsTable->create([
                 'name' => $validated['name'],
                 'start_date' => $validated['start_date'],
                 'end_date' => $validated['end_date'],
@@ -172,18 +179,18 @@ class TestsTableControlller extends Controller
 
     public function count()
     {
-        return response()->json(['count' => teststable::count()]);
+        return response()->json(['count' => $this->testsTable->count()]);
     }
 
     public function activeCount()
     {
-        return response()->json(['count' => teststable::where('status', 'Active')->count()]);
+        return response()->json(['count' => $this->testsTable->where('status', 'Active')->count()]);
     }
 
 
     public function export()
     {
-        $reports = teststable::all();
+        $reports = $this->testsTable->all();
 
         if ($reports->isEmpty()) {
             return response()->json(['message' => 'No data available'], 404);

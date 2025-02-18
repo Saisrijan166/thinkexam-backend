@@ -7,18 +7,24 @@ use App\Models\Report;
 
 class ReportController extends Controller
 {
-    //
+
+    protected $report;
+    public function __construct(Report $report)
+    {
+        $this->report = $report;
+    }
+
     public function index(Request $request)
     {
         $perPage = $request->input('perPage', 15);
-        $reports = Report::paginate($perPage);
+        $reports = $this->report->paginate($perPage);
 
         return response()->json($reports);
     }
 
     public function delete($id)
     {
-        $report = Report::find($id);
+        $report = $this->report->find($id);
 
         if (!$report) {
             return response()->json([
@@ -43,13 +49,13 @@ class ReportController extends Controller
 
     public function count()
     {
-        return response()->json(['count' => Report::count()]);
+        return response()->json(['count' => $this->report->count()]);
     }
 
 
     public function export()
     {
-        $reports = Report::all();
+        $reports = $this->report->all();
         if ($reports->isEmpty()) {
             return response()->json(['message' => 'No data available'], 404);
         }
@@ -60,7 +66,7 @@ class ReportController extends Controller
     {
         $filter = $request->query('filter');
 
-        $query = Report::query();
+        $query = $this->report->query();
         if ($filter) {
             $query->where('group', 'LIKE', "%$filter%");
         }
@@ -70,33 +76,31 @@ class ReportController extends Controller
         return response()->json($tests);
     }
 
-    
+
     public function getCredibilityReports(Request $request)
-{
-    $filter = $request->query('filter');
+    {
+        $filter = $request->query('filter');
 
-    $query = Report::query();
+        $query = $this->report->query();
 
-    if ($filter === 'above70') {
-        $query->where('credibility_score', '>', 70);
-    } elseif ($filter === '30-70') {
-        $query->whereBetween('credibility_score', [30, 70]);
-    } elseif ($filter === 'below30') {
-        $query->where('credibility_score', '<', 30);
+        if ($filter === 'above70') {
+            $query->where('credibility_score', '>', 70);
+        } elseif ($filter === '30-70') {
+            $query->whereBetween('credibility_score', [30, 70]);
+        } elseif ($filter === 'below30') {
+            $query->where('credibility_score', '<', 30);
+        }
+
+        $tests = $query->get();
+
+        return response()->json($tests);
     }
 
-    $tests = $query->get();
 
-    return response()->json($tests);
-}
-
-
-public function getEmails(Request $request)
-{
-    $group = $request->input('group', 'A'); 
-    $emails = Report::where('group', $group)->pluck('email');
-    return response()->json($emails);
-}
-
-
+    public function getEmails(Request $request)
+    {
+        $group = $request->input('group', 'A');
+        $emails = $this->report->where('group', $group)->pluck('email');
+        return response()->json($emails);
+    }
 }

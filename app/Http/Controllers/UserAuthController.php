@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Validator;
 
 class UserAuthController extends Controller
 {
+    protected $user;
+    public function __construct(User $user){
+        $this->user = $user;
+    }
     public function login(Request $request){
  
         $validatedData = $request->validate([
@@ -16,7 +20,7 @@ class UserAuthController extends Controller
             'password' => 'required|min:6',
         ]);
 
-        $user = User::where("email", $validatedData['email'])->first();
+        $user = $this->user->where("email", $validatedData['email'])->first();
 
         if (!$user || !Hash::check($validatedData['password'], $user->password)) {
             return response()->json(['result' => "Invalid credentials"], 401); 
@@ -34,7 +38,7 @@ class UserAuthController extends Controller
     public function signup(Request $request){
         $input = $request->all();
         $input["password"] = bcrypt($input["password"]);
-        $user = User::create($input);
+        $user = $this->user->create($input);
         $succes['token'] = $user->createToken('Myapp')->plainTextToken;
         $succes['name'] = $user->name;
 

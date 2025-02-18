@@ -7,10 +7,15 @@ use Illuminate\Http\Request;
 
 class CandidateTableController extends Controller
 {
+    protected $candidate;
+    public function __construct(Candidate $candidate)
+    {
+        $this->candidate = $candidate;
+    }
     public function candidatetable(Request $request)
     {
         $perPage = $request->query('perPage', 15);
-        $candidates = Candidate::paginate($perPage);
+        $candidates = $this->candidate->paginate($perPage);
         return response()->json($candidates);
     }
 
@@ -18,9 +23,9 @@ class CandidateTableController extends Controller
     {
         $filter = $request->query('filter');
 
-        $query = Candidate::query();
+        $query = $this->candidate->query();
 
-        if ($filter === 'A' || $filter === 'B'|| $filter === 'C') {
+        if ($filter === 'A' || $filter === 'B' || $filter === 'C') {
             $query->where('group', $filter);
         } elseif (in_array($filter, ['active', 'inactive'])) {
             $query->where('status', $filter);
@@ -33,10 +38,10 @@ class CandidateTableController extends Controller
 
     public function deleteCandidate($id)
     {
-        $isDelete = Candidate::destroy($id);
+        $isDelete = $this->candidate->destroy($id);
 
         if ($isDelete) {
-            $updatedTableData = Candidate::all();
+            $updatedTableData = $this->candidate->all();
             return response()->json([
                 'success' => true,
                 'data' => $updatedTableData
@@ -73,7 +78,7 @@ class CandidateTableController extends Controller
             'status' => 'nullable|string|in:active,inactive',
         ]);
 
-        $candidate = Candidate::find($id);
+        $candidate = $this->candidate->find($id);
 
         if (!$candidate) {
             return response()->json(['success' => false, 'message' => 'Candidate not found.'], 404);
@@ -109,7 +114,7 @@ class CandidateTableController extends Controller
         ]);
 
         try {
-            $candidate = Candidate::create($validated);
+            $candidate = $this->candidate->create($validated);
 
             return response()->json([
                 'success' => true,
