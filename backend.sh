@@ -1,7 +1,7 @@
 git add .
 echo "added"
 
-git commit -m "fri"
+git commit -m "feb 19"
 echo "committed"
 
 git push origin -u main

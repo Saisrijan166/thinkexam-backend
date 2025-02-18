@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\UserAuthController;
-use App\Http\Controllers\TestsTableControlller;
+use App\Http\Controllers\TestsTableController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CandidateController;
@@ -23,16 +23,16 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'getProfile']);
     Route::post('/reset-password', [ProfileController::class, 'resetPassword']);
 
-    Route::controller(TestsTableControlller::class)->group(function () {
-        Route::get('teststable', 'teststable');
+    Route::controller(TestsTableController::class)->group(function () {
+        Route::get('teststable', 'testTable');
         Route::delete('delete/{id}', 'delete');
-        Route::put('edittest/{id}', 'edittest');
-        Route::post('addtest', 'addtest');
-        Route::get('/tests/count', 'count');
-        Route::get('/tests/active/count', 'activeCount');
+        Route::put('edittest/{id}', 'editTest');
+        Route::post('addtest', 'addTest');
+        Route::get('/tests/count', 'countTests');
+        Route::get('/tests/active/count', 'activeTestsCount');
         Route::get('gettests', 'getFilteredTests');
         Route::get('getcategorytests', 'getCategoryTests');
-        Route::get('tests/export', 'export');
+        Route::get('tests/export', 'exportTests');
     });
 
     Route::controller(CandidateController::class)->group(function () {
@@ -50,15 +50,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 
     Route::controller(CandidateTableController::class)->group(function () {
-        Route::get('candidatetable', 'candidatetable');
+        Route::get('candidatetable', 'candidateTable');
         Route::delete('deletecandidate/{id}', 'deleteCandidate');
         Route::put('editcandidate/{id}', 'editCandidate');
         Route::get('getcandidates', 'getFilteredCandidates');
     });
 
     Route::controller(ReportController::class)->group(function () {
-        Route::get('reports', 'index');
-        Route::get('reports/export', 'export');
+        Route::get('reports', 'reportsTable');
+        Route::get('reports/export', 'exportReports');
         Route::delete('/deleterecord/{id}', 'delete');
         Route::get('/reports/count', 'count');
         Route::get('getgroupreports', 'getGroupReports');
@@ -66,4 +66,3 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('getemails', 'getEmails');
     });
 });
-

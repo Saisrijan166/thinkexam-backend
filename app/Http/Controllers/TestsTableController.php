@@ -2,66 +2,41 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\teststable;
+use App\Services\TestsTableService;
 use Illuminate\Http\Request;
 
-class TestsTableControlller extends Controller
+class TestsTableController extends Controller
 {
-    protected $testsTable;
+    protected $testsTableService;
 
-    public function __construct(teststable $teststable)
+    public function __construct(TestsTableService $testsTableService)
     {
-        $this->testsTable = $teststable;
+        $this->testsTableService = $testsTableService;
     }
 
-    public function teststable(Request $request)
+    public function testTable(Request $request)
     {
-        $perPage = $request->query('perPage', 15);
-        $tests = $this->testsTable->paginate($perPage);
-        return response()->json($tests);
+        return response()->json($this->testsTableService->getAll($request->query('perPage', 15)));
     }
 
     public function getFilteredTests(Request $request)
     {
-        $filter = $request->query('filter');
-        $query = $this->testsTable->query();
-
-        if ($filter === 'Active' || $filter === 'Inactive') {
-            $query->where('status', $filter);
-        } elseif (in_array($filter, ['Beginner', 'Intermediate', 'Advanced'])) {
-            $query->where('level', $filter);
-        }
-
-        $tests = $query->get();
-
-        return response()->json($tests);
+        return response()->json($this->testsTableService->getFilteredTests($request->query('filter')));
     }
-
 
     public function getCategoryTests(Request $request)
     {
-        $filter = $request->query('filter');
-
-        $query = $this->testsTable->query();
-        if ($filter) {
-            $query->where('category', 'LIKE', "%$filter%");
-        }
-
-        $tests = $query->get();
-
-        return response()->json($tests);
+        return response()->json($this->testsTableService->getCategoryTests($request->query('filter')));
     }
-
 
     public function delete($id)
     {
-        $isdelete = $this->testsTable->destroy($id);
+        $isDeleted = $this->testsTableService->delete($id);
 
-        if ($isdelete) {
-            $updatedTableData = $this->testsTable->all();
+        if ($isDeleted) {
             return response()->json([
                 'success' => true,
-                'data' => $updatedTableData
+                'data' => $this->testsTableService->getAll()
             ]);
         } else {
             return response()->json([
@@ -71,9 +46,7 @@ class TestsTableControlller extends Controller
         }
     }
 
-
-
-    public function edittest(Request $request, $id)
+    public function editTest(Request $request, $id)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -97,32 +70,14 @@ class TestsTableControlller extends Controller
             'version' => 'required|string',
         ]);
 
+        $updatedTest = $this->testsTableService->update($id, $validated);
 
-        $test = $this->testsTable->find($id);
-
-        if (!$test) {
-            return response()->json(['success' => false, 'message' => 'Test not found.'], 404);
-        }
-
-        $test->name = $request->input('name');
-        $test->start_date = $request->input('start_date');
-        $test->end_date = $request->input('end_date');
-        $test->status = $request->input('status');
-        $test->question = $request->input('question');
-        $test->level = $request->input('level');
-        $test->candidate = $request->input('candidate');
-        $test->product = $request->input('product');
-        $test->category = $request->input('category');
-        $test->template = $request->input('template');
-        $test->version = $request->input('version');
-
-        if ($test->save()) {
+        if ($updatedTest) {
             return response()->json(['success' => true, 'message' => 'Test updated successfully.']);
         } else {
-            return response()->json(['success' => false, 'message' => 'Failed to update test.'], 500);
+            return response()->json(['success' => false, 'message' => 'Test not found.'], 404);
         }
     }
-
 
     public function addTest(Request $request)
     {
@@ -149,19 +104,7 @@ class TestsTableControlller extends Controller
         ]);
 
         try {
-            $test = $this->testsTable->create([
-                'name' => $validated['name'],
-                'start_date' => $validated['start_date'],
-                'end_date' => $validated['end_date'],
-                'status' => $validated['status'],
-                'level' => $validated['level'],
-                'question' => $validated['question'],
-                'candidate' => $validated['candidate'],
-                'product' => $validated['product'],
-                'category' => $validated['category'],
-                'template' => $validated['template'],
-                'version' => $validated['version'],
-            ]);
+            $test = $this->testsTableService->create($validated);
 
             return response()->json([
                 'success' => true,
@@ -176,21 +119,19 @@ class TestsTableControlller extends Controller
         }
     }
 
-
-    public function count()
+    public function countTests()
     {
-        return response()->json(['count' => $this->testsTable->count()]);
+        return response()->json(['count' => $this->testsTableService->count()]);
     }
 
-    public function activeCount()
+    public function activeTestsCount()
     {
-        return response()->json(['count' => $this->testsTable->where('status', 'Active')->count()]);
+        return response()->json(['count' => $this->testsTableService->activeCount()]);
     }
 
-
-    public function export()
+    public function exportTests()
     {
-        $reports = $this->testsTable->all();
+        $reports = $this->testsTableService->export();
 
         if ($reports->isEmpty()) {
             return response()->json(['message' => 'No data available'], 404);

@@ -3,104 +3,83 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Report;
+use App\Services\ReportTableService;
 
 class ReportController extends Controller
 {
+    protected $reportService;
 
-    protected $report;
-    public function __construct(Report $report)
+    public function __construct(ReportTableService $reportService)
     {
-        $this->report = $report;
+        $this->reportService = $reportService;
     }
 
-    public function index(Request $request)
+    public function reportsTable(Request $request)
     {
         $perPage = $request->input('perPage', 15);
-        $reports = $this->report->paginate($perPage);
+        $result = $this->reportService->getAll($perPage);
 
-        return response()->json($reports);
+        return isset($result['error'])
+            ? response()->json(['success' => false, 'message' => $result['error']], 500)
+            : response()->json($result);
     }
 
     public function delete($id)
     {
-        $report = $this->report->find($id);
+        $result = $this->reportService->delete($id);
 
-        if (!$report) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Record not found'
-            ], 404);
-        }
-
-        if ($report->delete()) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Record deleted successfully'
-            ]);
-        }
-
-        return response()->json([
-            'success' => false,
-            'message' => 'Failed to delete the record'
-        ], 500);
+        return isset($result['error'])
+            ? response()->json(['success' => false, 'message' => $result['error']], 500)
+            : response()->json(['success' => true, 'message' => 'Record deleted successfully']);
     }
-
 
     public function count()
     {
-        return response()->json(['count' => $this->report->count()]);
+        $result = $this->reportService->count();
+
+        return isset($result['error'])
+            ? response()->json(['success' => false, 'message' => $result['error']], 500)
+            : response()->json(['success' => true, 'count' => $result]);
     }
 
-
-    public function export()
+    public function exportReports()
     {
-        $reports = $this->report->all();
+        $reports = $this->reportService->export();
+
         if ($reports->isEmpty()) {
             return response()->json(['message' => 'No data available'], 404);
         }
+
         return response()->json($reports);
     }
 
     public function getGroupReports(Request $request)
     {
         $filter = $request->query('filter');
+        $result = $this->reportService->getGroupReports($filter);
 
-        $query = $this->report->query();
-        if ($filter) {
-            $query->where('group', 'LIKE', "%$filter%");
-        }
-
-        $tests = $query->get();
-
-        return response()->json($tests);
+        return isset($result['error'])
+            ? response()->json(['success' => false, 'message' => $result['error']], 500)
+            : response()->json(['success' => true, 'data' => $result]);
     }
-
 
     public function getCredibilityReports(Request $request)
     {
         $filter = $request->query('filter');
+        $result = $this->reportService->getCredibilityReports($filter);
 
-        $query = $this->report->query();
-
-        if ($filter === 'above70') {
-            $query->where('credibility_score', '>', 70);
-        } elseif ($filter === '30-70') {
-            $query->whereBetween('credibility_score', [30, 70]);
-        } elseif ($filter === 'below30') {
-            $query->where('credibility_score', '<', 30);
-        }
-
-        $tests = $query->get();
-
-        return response()->json($tests);
+        return isset($result['error'])
+            ? response()->json(['success' => false, 'message' => $result['error']], 500)
+            : response()->json(['success' => true, 'data' => $result]);
     }
-
 
     public function getEmails(Request $request)
     {
         $group = $request->input('group', 'A');
-        $emails = $this->report->where('group', $group)->pluck('email');
-        return response()->json($emails);
+        $result = $this->reportService->getEmails($group);
+
+        return isset($result['error'])
+            ? response()->json(['success' => false, 'message' => $result['error']], 500)
+            : response()->json(['success' => true, 'data' => $result]);
     }
 }
