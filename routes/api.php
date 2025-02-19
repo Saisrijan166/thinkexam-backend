@@ -22,6 +22,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('/profile', [ProfileController::class, 'getProfile']);
     Route::post('/reset-password', [ProfileController::class, 'resetPassword']);
+    Route::post('logout', [UserAuthController::class, 'logout']);
 
     Route::controller(TestsTableController::class)->group(function () {
         Route::get('teststable', 'testTable');
