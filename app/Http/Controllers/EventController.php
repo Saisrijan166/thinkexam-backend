@@ -89,4 +89,16 @@ class EventController extends Controller
 
         return response()->json(['success' => true, 'message' => 'Event added successfully.', 'data' => $result], 201);
     }
+
+    public function searchEvents(Request $request)
+    {
+        $search = $request->query('search');
+        $result = $this->eventTableService->search($search);
+
+        if (isset($result['error'])) {
+            return response()->json(['success' => false, 'message' => $result['error']], 500);
+        }
+
+        return response()->json(['success' => true, 'data' => $result]);
+    }
 }

@@ -30,8 +30,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('addtest', 'addTest');
         Route::get('/tests/count', 'countTests');
         Route::get('/tests/active/count', 'activeTestsCount');
-        Route::get('gettests', 'getFilteredTests');
+        Route::get('getFilteredTests', 'getFilteredTests');
         Route::get('getcategorytests', 'getCategoryTests');
+        Route::get('searchTests', 'searchTests');
         Route::get('tests/export', 'exportTests');
     });
 
@@ -47,6 +48,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::put('editevent/{id}', 'editevent');
         Route::post('addevent', 'addevent');
         Route::get('getevents', 'getFilteredEvents');
+        Route::get('searchEvents', 'searchEvents');
     });
 
     Route::controller(CandidateTableController::class)->group(function () {
@@ -54,6 +56,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::delete('deletecandidate/{id}', 'deleteCandidate');
         Route::put('editcandidate/{id}', 'editCandidate');
         Route::get('getcandidates', 'getFilteredCandidates');
+        Route::get('searchCandidates', 'searchCandidates');
     });
 
     Route::controller(ReportController::class)->group(function () {
@@ -64,5 +67,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('getgroupreports', 'getGroupReports');
         Route::get('getcredibilityreports', 'getCredibilityReports');
         Route::get('getemails', 'getEmails');
+        Route::get('searchReports', 'searchReports');
     });
 });

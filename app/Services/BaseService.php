@@ -78,14 +78,22 @@ abstract class BaseService
             return ['error' => 'Failed to fetch count.'];
         }
     }
-    
-    public function export()
-{
-    try {
-        return $this->model->all();
-    } catch (Exception $e) {
-        return ['error' => 'Error exporting data: ' . $e->getMessage()];
-    }
-}
 
+    public function export()
+    {
+        try {
+            return $this->model->all();
+        } catch (Exception $e) {
+            return ['error' => 'Error exporting data: ' . $e->getMessage()];
+        }
+    }
+
+    public function search($search)
+    {
+        try {
+            return $this->model->where('name', 'LIKE', "$search%")->get();
+        } catch (Exception $e) {
+            return ['error' => 'Error searching data: ' . $e->getMessage()];
+        }
+    }
 }

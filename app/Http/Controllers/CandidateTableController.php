@@ -67,4 +67,10 @@ class CandidateTableController extends Controller
 
         return response()->json(['success' => false, 'message' => 'Candidate not found.'], 404);
     }
+
+    public function searchCandidates(Request $request)
+    {
+        $search = $request->query('search');
+        return response()->json($this->candidateService->search($search));
+    }
 }

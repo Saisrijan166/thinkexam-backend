@@ -139,4 +139,9 @@ class TestsTableController extends Controller
 
         return response()->json($reports);
     }
+
+    public function searchTests(Request $request)
+    {
+        return response()->json($this->testsTableService->search($request->query('search')));
+    }
 }

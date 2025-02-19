@@ -82,4 +82,14 @@ class ReportController extends Controller
             ? response()->json(['success' => false, 'message' => $result['error']], 500)
             : response()->json(['success' => true, 'data' => $result]);
     }
+
+    public function searchReports(Request $request)
+    {
+        $search = $request->query('search');
+        $result = $this->reportService->search($search);
+
+        return isset($result['error'])
+            ? response()->json(['success' => false, 'message' => $result['error']], 500)
+            : response()->json(['success' => true, 'data' => $result]);
+    }
 }
