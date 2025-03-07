@@ -1,0 +1,14 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+
+class TeststablesTableSeeder extends Seeder
+{
+    public function run()
+    {
+        DB::statement("INSERT INTO `teststables` (`id`, `name`, `start_date`, `end_date`, `status`, `question`, `level`, `candidate`, `product`, `category`, `template`, `version`, `created_at`, `updated_at`) VALUES (1,'Test 1','2025-01-01','2025-01-10','Active',50,'Beginner',100,'Product A','Category 1','Template 1','v1.0','2025-03-06 02:31:31','2025-03-06 02:31:31'),(2,'Test 2','2025-02-01','2025-02-10','Inactive',30,'Intermediate',200,'Product B','Category 2','Template 2','v2.0','2025-03-06 02:31:31','2025-03-06 02:31:31'),(3,'Test 3','2025-03-01','2025-03-10','Active',40,'Beginner',150,'Product C','Category 3','Template 3','v1.1','2025-03-06 02:31:31','2025-03-06 02:31:31'),(4,'Test 4','2025-04-01','2025-04-10','Inactive',25,'Advanced',120,'Product D','Category 1','Template 4','v2.0','2025-03-06 02:31:31','2025-03-06 02:31:31'),(5,'Test 5','2025-05-01','2025-05-10','Active',55,'Beginner',140,'Product E','Category 2','Template 5','v1.0','2025-03-06 02:31:31','2025-03-06 02:31:31'),(6,'Test 6','2025-06-01','2025-06-10','Active',35,'Intermediate',130,'Product F','Category 3','Template 6','v2.1','2025-03-06 02:31:31','2025-03-06 02:31:31'),(7,'Test 7','2025-07-01','2025-07-10','Inactive',20,'Advanced',125,'Product G','Category 1','Template 7','v1.2','2025-03-06 02:31:31','2025-03-06 02:31:31'),(8,'Test 8','2025-08-01','2025-08-10','Active',60,'Beginner',110,'Product H','Category 2','Template 8','v1.3','2025-03-06 02:31:31','2025-03-06 02:31:31'),(9,'Test 9','2025-09-01','2025-09-10','Active',45,'Intermediate',105,'Product I','Category 3','Template 9','v2.0','2025-03-06 02:31:31','2025-03-06 02:31:31'),(10,'Test 10','2025-10-01','2025-10-10','Inactive',50,'Advanced',135,'Product J','Category 1','Template 10','v1.4','2025-03-06 02:31:31','2025-03-06 02:31:31'),(11,'Test 11','2025-11-01','2025-11-10','Active',70,'Beginner',145,'Product K','Category 2','Template 11','v2.2','2025-03-06 02:31:31','2025-03-06 02:31:31'),(12,'Test 12','2025-12-01','2025-12-10','Active',30,'Intermediate',115,'Product L','Category 3','Template 12','v1.0','2025-03-06 02:31:31','2025-03-06 02:31:31'),(13,'Test 13','2025-01-15','2025-01-25','Inactive',45,'Advanced',125,'Product M','Category 1','Template 13','v1.5','2025-03-06 02:31:31','2025-03-06 02:31:31'),(14,'Test 14','2025-02-15','2025-02-25','Active',50,'Beginner',130,'Product N','Category 2','Template 14','v2.0','2025-03-06 02:31:31','2025-03-06 02:31:31'),(15,'Test 15','2025-03-15','2025-03-25','Inactive',55,'Intermediate',120,'Product O','Category 3','Template 15','v1.7','2025-03-06 02:31:31','2025-03-06 02:31:31');");
+    }
+}
