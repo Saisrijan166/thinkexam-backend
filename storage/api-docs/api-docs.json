@@ -1,0 +1,1664 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API documentation",
+        "description": "API documentation for Laravel + React project",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000",
+            "description": "API Server"
+        },
+        {
+            "url": "/api"
+        }
+    ],
+    "paths": {
+        "/api/addcandidate": {
+            "post": {
+                "tags": [
+                    "Candidates"
+                ],
+                "summary": "Add a new candidate",
+                "operationId": "49c9cfe63ada19ada0f1f8e71d51a03f",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "candidate@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "securepassword"
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "9876543210"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Candidate details added successfully"
+                    },
+                    "422": {
+                        "description": "Validation failed"
+                    },
+                    "500": {
+                        "description": "Something went wrong"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/candidate/upload-files": {
+            "post": {
+                "tags": [
+                    "Candidates"
+                ],
+                "summary": "Upload candidate files",
+                "operationId": "fe9c7f6135d5f2d69710248285a28897",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "profile_photo"
+                                ],
+                                "properties": {
+                                    "profile_photo": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "signature": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "id_proof": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "new_me": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "other_identification": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "other_identification2": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "other_identification3": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "other_identification4": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Files uploaded successfully"
+                    },
+                    "422": {
+                        "description": "Validation failed"
+                    },
+                    "500": {
+                        "description": "Something went wrong"
+                    }
+                }
+            }
+        },
+        "/api/candidates/count": {
+            "get": {
+                "tags": [
+                    "Dashboard"
+                ],
+                "summary": "Get total number of candidates",
+                "operationId": "726a5faa50241e95ec1e0893b125b341",
+                "responses": {
+                    "200": {
+                        "description": "Total number of candidates",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "count": {
+                                            "type": "integer",
+                                            "example": 100
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/candidatetable": {
+            "get": {
+                "tags": [
+                    "CandidateTable"
+                ],
+                "summary": "Get paginated list of candidates",
+                "operationId": "ad7da643400a65f006c3237d61b23e9d",
+                "parameters": [
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "Number of candidates per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response with paginated candidates list"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/getcandidates": {
+            "get": {
+                "tags": [
+                    "CandidateTable"
+                ],
+                "summary": "Get filtered candidates",
+                "operationId": "04ef1d82e66adbf277778d6d199a904a",
+                "parameters": [
+                    {
+                        "name": "filter",
+                        "in": "query",
+                        "description": "Filter criteria",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Filtered candidates list"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/deletecandidate/{id}": {
+            "delete": {
+                "tags": [
+                    "CandidateTable"
+                ],
+                "summary": "Delete a candidate",
+                "operationId": "ed973565d1bf7d33901d21b63905b43d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Candidate ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Candidate deleted successfully"
+                    },
+                    "404": {
+                        "description": "Candidate not found"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/editcandidate/{id}": {
+            "put": {
+                "tags": [
+                    "CandidateTable"
+                ],
+                "summary": "Update candidate details",
+                "operationId": "d1f23d1a42456b02de4b776d0bf6b412",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Candidate ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    },
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "enrollment": {
+                                        "type": "string"
+                                    },
+                                    "date_of_registration": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "phone": {
+                                        "type": "string"
+                                    },
+                                    "dob": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "gender": {
+                                        "type": "string",
+                                        "enum": [
+                                            "male",
+                                            "female"
+                                        ]
+                                    },
+                                    "school_name": {
+                                        "type": "string"
+                                    },
+                                    "year": {
+                                        "type": "integer"
+                                    },
+                                    "session": {
+                                        "type": "string"
+                                    },
+                                    "address": {
+                                        "type": "string"
+                                    },
+                                    "country": {
+                                        "type": "string"
+                                    },
+                                    "state": {
+                                        "type": "string"
+                                    },
+                                    "city": {
+                                        "type": "string"
+                                    },
+                                    "pincode": {
+                                        "type": "string"
+                                    },
+                                    "group": {
+                                        "type": "string"
+                                    },
+                                    "other_selection": {
+                                        "type": "string"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "active",
+                                            "inactive"
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Candidate updated successfully"
+                    },
+                    "404": {
+                        "description": "Candidate not found"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/searchCandidates": {
+            "get": {
+                "tags": [
+                    "CandidateTable"
+                ],
+                "summary": "Search for candidates",
+                "operationId": "aef01e23d5703c41da9f030afd84f723",
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Search term",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Search results"
+                    },
+                    "500": {
+                        "description": "Internal server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/eventtable": {
+            "get": {
+                "tags": [
+                    "CBT"
+                ],
+                "summary": "Get paginated event table",
+                "operationId": "cf2fede99004ab8e65afb39959370ae4",
+                "parameters": [
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "Number of records per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/getevents": {
+            "get": {
+                "tags": [
+                    "CBT"
+                ],
+                "summary": "Get filtered events",
+                "operationId": "eebbce1f1b378419a416f3a617ff7392",
+                "parameters": [
+                    {
+                        "name": "filter",
+                        "in": "query",
+                        "description": "Filter criteria",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/deleteevent/{id}": {
+            "delete": {
+                "tags": [
+                    "CBT"
+                ],
+                "summary": "Delete an event",
+                "operationId": "41310016ac1f1f6801f55f114ad85894",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Event ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Event deleted successfully"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/editevent/{id}": {
+            "put": {
+                "tags": [
+                    "CBT"
+                ],
+                "summary": "Edit an event",
+                "operationId": "c651e3b5d29919607e76ab8626b01d43",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Event ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "event_name",
+                                    "event_code",
+                                    "exam_event_type",
+                                    "event_type",
+                                    "event_opening",
+                                    "event_closing",
+                                    "event_date"
+                                ],
+                                "properties": {
+                                    "event_name": {
+                                        "type": "string"
+                                    },
+                                    "event_code": {
+                                        "type": "string"
+                                    },
+                                    "exam_event_type": {
+                                        "type": "string"
+                                    },
+                                    "event_type": {
+                                        "type": "string"
+                                    },
+                                    "event_opening": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "event_closing": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "event_date": {
+                                        "type": "string",
+                                        "format": "date"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Event updated successfully"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/addevent": {
+            "post": {
+                "tags": [
+                    "CBT"
+                ],
+                "summary": "Add a new event",
+                "operationId": "69bec2611a9a242d55505db05299eb9b",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "event_name",
+                                    "event_code",
+                                    "exam_event_type",
+                                    "event_type",
+                                    "event_opening",
+                                    "event_closing",
+                                    "event_date"
+                                ],
+                                "properties": {
+                                    "event_name": {
+                                        "type": "string"
+                                    },
+                                    "event_code": {
+                                        "type": "string"
+                                    },
+                                    "exam_event_type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "Online",
+                                            "Offline"
+                                        ]
+                                    },
+                                    "event_type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "Competition",
+                                            "Exhibition",
+                                            "Event",
+                                            "Conference"
+                                        ]
+                                    },
+                                    "event_opening": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "event_closing": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "event_date": {
+                                        "type": "string",
+                                        "format": "date"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Event added successfully"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/searchEvents": {
+            "get": {
+                "tags": [
+                    "CBT"
+                ],
+                "summary": "Search for events",
+                "operationId": "a4e0539cdcdf09392dc0b76ce996233d",
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Search term for event names or codes",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Search results returned successfully"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/profile": {
+            "get": {
+                "tags": [
+                    "Profile"
+                ],
+                "summary": "Get authenticated user profile",
+                "operationId": "39af45cbadb8ce9e13521407f440ff2d",
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "John Doe"
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "example": "john@example.com"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/reset-password": {
+            "post": {
+                "tags": [
+                    "Profile"
+                ],
+                "summary": "Reset user password",
+                "operationId": "fb2894f3487b382b2e1e4e5d639eba56",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "password"
+                                ],
+                                "properties": {
+                                    "password": {
+                                        "type": "string",
+                                        "example": "newpassword123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Password reset successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Password reset successfully!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    },
+                    "500": {
+                        "description": "Failed to reset password"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/reports": {
+            "get": {
+                "tags": [
+                    "Reports"
+                ],
+                "summary": "Get reports with pagination",
+                "operationId": "289342a77c685033524d27d2cb8bf192",
+                "parameters": [
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "Number of records per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "default": 15
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/deleterecord/{id}": {
+            "delete": {
+                "tags": [
+                    "Reports"
+                ],
+                "summary": "Delete a report by ID",
+                "operationId": "34041c95db1912787c5b746da04d58ba",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the report to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Record deleted successfully"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/reports/count": {
+            "get": {
+                "tags": [
+                    "Dashboard"
+                ],
+                "summary": "Get the total count of reports",
+                "operationId": "ff6aec0ff3db4242cb9f3ffb62af9577",
+                "responses": {
+                    "200": {
+                        "description": "Returns the count of reports"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/reports/export": {
+            "get": {
+                "tags": [
+                    "Reports"
+                ],
+                "summary": "Export reports",
+                "operationId": "5b74e8806b0c450925ec2fbcdc9a2cd6",
+                "responses": {
+                    "200": {
+                        "description": "Exported reports"
+                    },
+                    "404": {
+                        "description": "No data available"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/getgroupreports": {
+            "get": {
+                "tags": [
+                    "Reports"
+                ],
+                "summary": "Get group reports",
+                "operationId": "eb0f3a37054c694e8258f811bd5d7418",
+                "parameters": [
+                    {
+                        "name": "filter",
+                        "in": "query",
+                        "description": "Filter parameter",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns group reports"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/getcredibilityreports": {
+            "get": {
+                "tags": [
+                    "Reports"
+                ],
+                "summary": "Get credibility reports",
+                "operationId": "696d397a78b5acd36e1f19f6c3378b96",
+                "parameters": [
+                    {
+                        "name": "filter",
+                        "in": "query",
+                        "description": "Filter parameter",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns credibility reports"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/getemails": {
+            "get": {
+                "tags": [
+                    "Reports"
+                ],
+                "summary": "Get emails by group",
+                "operationId": "111d1f5508c280a578e0aedccfa86204",
+                "parameters": [
+                    {
+                        "name": "group",
+                        "in": "query",
+                        "description": "Group filter (default: A)",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "A"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns emails"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/searchReports": {
+            "get": {
+                "tags": [
+                    "Reports"
+                ],
+                "summary": "Search reports",
+                "operationId": "49382d4728736faba52f897fa4966279",
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Search query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns search results"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/teststable": {
+            "get": {
+                "tags": [
+                    "Tests"
+                ],
+                "summary": "Get all tests",
+                "operationId": "c100efb2b7415b897a5dd3831e4b3ef7",
+                "parameters": [
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "Number of results per page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of tests"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/getFilteredTests": {
+            "get": {
+                "tags": [
+                    "Tests"
+                ],
+                "summary": "Get filtered tests",
+                "operationId": "50f2aa32ea99cdc8957fec7f6b2467b1",
+                "parameters": [
+                    {
+                        "name": "filter",
+                        "in": "query",
+                        "description": "Filter criteria",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Filtered tests"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/getcategorytests": {
+            "get": {
+                "tags": [
+                    "Tests"
+                ],
+                "summary": "Get tests by category",
+                "operationId": "815e8a34f1e4630c0597ef3db4cb3f16",
+                "parameters": [
+                    {
+                        "name": "filter",
+                        "in": "query",
+                        "description": "Filter category",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of tests filtered by category"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/delete/{id}": {
+            "delete": {
+                "tags": [
+                    "Tests"
+                ],
+                "summary": "Delete a test",
+                "operationId": "ac24d18a72040b67e793547d51ff53eb",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the test to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Test deleted successfully"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/edittest/{id}": {
+            "put": {
+                "tags": [
+                    "Tests"
+                ],
+                "summary": "Edit a test",
+                "operationId": "21f0511e4b9e1d7a0c265e76bae22f07",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the test to edit",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "start_date",
+                                    "end_date",
+                                    "status",
+                                    "level"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "maxLength": 255
+                                    },
+                                    "start_date": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "end_date": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "Active",
+                                            "Inactive"
+                                        ]
+                                    },
+                                    "level": {
+                                        "type": "string",
+                                        "enum": [
+                                            "Beginner",
+                                            "Intermediate",
+                                            "Advanced"
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Test updated successfully"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/addtest": {
+            "post": {
+                "tags": [
+                    "Tests"
+                ],
+                "summary": "Add a new test",
+                "description": "* @OA\\Post(\n    path=\"/api/addtest\",\n    summary=\"Add a new test\",\n    tags={\"Tests\"},\n    security={{\"sanctum\":{}}},",
+                "operationId": "e7583e07e24cf6a58be1e2081a398e82",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "start_date",
+                                    "end_date",
+                                    "status",
+                                    "question",
+                                    "level",
+                                    "candidate",
+                                    "product",
+                                    "category",
+                                    "template",
+                                    "version"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Test 1"
+                                    },
+                                    "start_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-01-01"
+                                    },
+                                    "end_date": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2025-01-10"
+                                    },
+                                    "status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "Active",
+                                            "Inactive"
+                                        ],
+                                        "example": "Active"
+                                    },
+                                    "question": {
+                                        "type": "integer",
+                                        "example": 50
+                                    },
+                                    "level": {
+                                        "type": "string",
+                                        "enum": [
+                                            "Beginner",
+                                            "Intermediate",
+                                            "Advanced"
+                                        ],
+                                        "example": "Beginner"
+                                    },
+                                    "candidate": {
+                                        "type": "integer",
+                                        "example": 100
+                                    },
+                                    "product": {
+                                        "type": "string",
+                                        "example": "Product A"
+                                    },
+                                    "category": {
+                                        "type": "string",
+                                        "example": "Category 1"
+                                    },
+                                    "template": {
+                                        "type": "string",
+                                        "example": "Template 1"
+                                    },
+                                    "version": {
+                                        "type": "string",
+                                        "example": "v1.0"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Test added successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Test added successfully."
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "example": {
+                                                "id": 1,
+                                                "name": "Math Assessment",
+                                                "start_date": "2025-04-01",
+                                                "end_date": "2025-04-15",
+                                                "status": "Active",
+                                                "level": "Intermediate",
+                                                "question": "101",
+                                                "candidate": "John Doe",
+                                                "product": "CBT Software",
+                                                "category": "Mathematics",
+                                                "template": "Default Template",
+                                                "version": "v1.0"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error occurred while adding test",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error occurred while adding test: {error_message}"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/tests/count": {
+            "get": {
+                "tags": [
+                    "Dashboard"
+                ],
+                "summary": "Get total test count",
+                "operationId": "11b15adb4d9aadd7c231e3aef2a43a6b",
+                "responses": {
+                    "200": {
+                        "description": "Total number of tests"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/tests/active/count": {
+            "get": {
+                "tags": [
+                    "Dashboard"
+                ],
+                "summary": "Get active test count",
+                "operationId": "011278adedd5cab63b009e913403413d",
+                "responses": {
+                    "200": {
+                        "description": "Number of active tests"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/tests/export": {
+            "get": {
+                "tags": [
+                    "Tests"
+                ],
+                "summary": "Export test data",
+                "operationId": "c59cf62c0290406063b98f678556d2d7",
+                "responses": {
+                    "200": {
+                        "description": "Exported test data"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/searchTests": {
+            "get": {
+                "tags": [
+                    "Tests"
+                ],
+                "summary": "Search tests",
+                "operationId": "d0ef36348b8bc30e51b50444d495c9b7",
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Search query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of matching tests"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Login"
+                ],
+                "summary": "User login",
+                "operationId": "dde0e6a0694ae97f804fba7d40433c68",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "sai@gmail.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "123456"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User logged in successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "result": {
+                                            "properties": {
+                                                "token": {
+                                                    "type": "string",
+                                                    "example": "token_here"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "John Doe"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User logged in successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid credentials",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "result": {
+                                            "type": "string",
+                                            "example": "Invalid credentials"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/logout": {
+            "post": {
+                "tags": [
+                    "Login"
+                ],
+                "summary": "User logout",
+                "operationId": "0b6b00e1e436126529647bb1b75c02d9",
+                "responses": {
+                    "200": {
+                        "description": "Logged out successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Logged out successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "sanctum": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Login",
+            "description": "APIs related to reports"
+        },
+        {
+            "name": "Profile",
+            "description": "APIs related to reports"
+        },
+        {
+            "name": "Dashboard",
+            "description": "APIs related to Dashboard"
+        },
+        {
+            "name": "Tests",
+            "description": "APIs related to Tests"
+        },
+        {
+            "name": "Candidates",
+            "description": "APIs related to Candidates"
+        },
+        {
+            "name": "CandidateTable",
+            "description": "APIs related to Candidtaes Table"
+        },
+        {
+            "name": "CBT",
+            "description": "APIs related to Events"
+        },
+        {
+            "name": "Reports",
+            "description": "APIs related to reports"
+        }
+    ],
+    "security": [
+        {
+            "bearerAuth": []
+        }
+    ]
+}

@@ -15,6 +15,38 @@ class UserAuthController extends Controller
     {
         $this->user = $user;
     }
+
+    /**
+     * @OA\Post(
+     *     path="/api/login",
+     *     summary="User login",
+     *     tags={"Login"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"email","password"},
+     *             @OA\Property(property="email", type="string", format="email", example="sai@gmail.com"),
+     *             @OA\Property(property="password", type="string", format="password", example="123456")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="User logged in successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="result", type="object",
+     *                 @OA\Property(property="token", type="string", example="token_here"),
+     *                 @OA\Property(property="name", type="string", example="John Doe")
+     *             ),
+     *             @OA\Property(property="message", type="string", example="User logged in successfully")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=401,
+     *         description="Invalid credentials",
+     *         @OA\JsonContent(@OA\Property(property="result", type="string", example="Invalid credentials"))
+     *     )
+     * )
+     */
     public function login(Request $request)
     {
 
@@ -38,6 +70,19 @@ class UserAuthController extends Controller
         ], 200);
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/logout",
+     *     summary="User logout",
+     *     tags={"Login"},
+     *     security={{"sanctum":{}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Logged out successfully",
+     *         @OA\JsonContent(@OA\Property(property="message", type="string", example="Logged out successfully"))
+     *     )
+     * )
+     */
     public function logout(Request $request)
     {
         $request->user()->tokens()->delete();
